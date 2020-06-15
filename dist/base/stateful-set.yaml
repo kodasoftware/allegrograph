@@ -44,12 +44,12 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: ag-data
-        spec:
-      resources:
-        requests:
-          storage: 20Gi
-      accessModes:
-        - ReadWriteOnce
+      spec:
+        resources:
+          requests:
+            storage: 20Gi
+        accessModes:
+          - ReadWriteOnce
 
 ---
 

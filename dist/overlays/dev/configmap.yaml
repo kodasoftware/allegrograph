@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ag-config
+  labels:
+    app: ag
+data:
+  agraph.cfgl: |-
+    Port 10035
+    SuperUser super:xyzzy
+    BaseDir /app/agraph
+    SettingsDirectory data/settings
+    LogDir log
+    PidFile data/agraph.pid
+    InstanceTimeout 604800
+    RunAs agraph
+    ReplicationPorts 13000
+
+    <RootCatalog>
+    Main /app/rootcatalog
+    </RootCatalog>
+
+    <SystemCatalog>
+    Main data/systemcatalog
+    InstanceTimeout 10
+    </SystemCatalog>

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: agmmr
-          image: franzinc/agmmr
+          image: gcr.io/sauce-gcr--hawk/agmmr
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -82,7 +82,7 @@ spec:
               secretName: ag-agraphsecrets
       containers:
         - name: agmmr
-          image: franzinc/agmmr
+          image: gcr.io/sauce-gcr--hawk/agmmr
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

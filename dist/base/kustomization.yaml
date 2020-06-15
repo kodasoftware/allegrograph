@@ -1,8 +1,7 @@
 namespace: default
 
 images:
-  - name: franzinc/agmmr
-    newTag: 7.0.0
+  - name: gcr.io/sauce-gcr--hawk/agmmr
 
 resources:
   - secret.yaml

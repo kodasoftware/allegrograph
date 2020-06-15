@@ -3,8 +3,8 @@ replicas:
   - name: ag-slave
     count: 3
 images:
-  - name: franzinc/agmmr
-    newTag: 7.0.0
+  - name: gcr.io/sauce-gcr--hawk/agmmr
+    newTag: 0.1.0
 bases:
   - ../../base
 resources:

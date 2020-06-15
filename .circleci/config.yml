@@ -11,6 +11,7 @@ workflows:
   version: 2
   publish_deploy:
     jobs:
+      - publish
       - pre_deploy:
           type: approval
           filters:
@@ -48,25 +49,30 @@ jobs:
       - docker_login:
           token: $GOOGLE_GCR_CREDENTIALS
           hostname: gcr.io
-      - git_config:
-          email: $GIT_EMAIL
-          author: $GIT_NAME
-      - gcloud_auth:
-          credentials: $GOOGLE_GCR_CREDENTIALS
-          project_id: sauce-gcr--hawk
-          region: europe-west2
-          ttl: 30m
-      - git_tag
-      - docker_build:
+      # - git_config:
+      #     email: $GIT_EMAIL
+      #     author: $GIT_NAME
+      # - gcloud_auth:
+      #     credentials: $GOOGLE_GCR_CREDENTIALS
+      #     project_id: sauce-gcr--hawk
+      #     region: europe-west2
+      #     ttl: 30m
+      # - git_tag
+      # - docker_build:
+      #     hostname: gcr.io
+      #     project_id: sauce-gcr--hawk
+      #     image: graphstore
+      #     dockerfile_path: dist/Dockerfile
+      - docker_tag_from_remote:
+          remote: franzinc/agmmr:7.0.0
           hostname: gcr.io
           project_id: sauce-gcr--hawk
-          image: graphstore
-          dockerfile_path: dist/Dockerfile
+          image: agmmr
       - docker_push:
           hostname: gcr.io
           project_id: sauce-gcr--hawk
-          image: graphstore
-      - git_push_tags
+          image: agmmr
+      # - git_push_tags
       
   deploy:
     executor: gcloud
@@ -191,6 +197,20 @@ commands:
         type: string
     steps:
       - run: docker push << parameters.hostname>>/<< parameters.project_id >>/<< parameters.image >>:$(cat VERSION)
+  docker_tag_from_remote:
+    parameters:
+      remote: 
+        type: string # franzinc/agmmr:7.0.0
+      hostname: 
+        type: string # gcr.io
+      project_id: 
+        type: string # sauce-gcr--hawk
+      image: 
+        type: string # agmmr
+    steps:
+      - run: |
+          docker pull <<parameters.remote>>
+          docker image tag <parameters.remote>> <<parameters.hostname>>/<<parameters.project_id>>/<<parameters.image>>:$(cat VERSION)
 
   # 
   # Git commands

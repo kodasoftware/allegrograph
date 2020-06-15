@@ -36,7 +36,7 @@ spec:
             - name: Controlling
               value: "yes"
             - name: ControllingHost
-              value: "ag-master-0"
+              value: "ag-master"
       volumes:
         - name: shm
           emptyDir:
@@ -98,4 +98,4 @@ spec:
               readOnly: true
           env:
             - name: ControllingHost
-              value: "ag-master-0"
+              value: "ag-master"

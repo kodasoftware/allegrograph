@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: ag-master
@@ -13,7 +13,7 @@ spec:
         app: ag-master
     spec:
       containers:
-        - name: ag-master
+        - name: agmmr
           image: franzinc/agmmr
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -34,17 +34,17 @@ spec:
               value: "yes"
             - name: ControllingHost
               value: "ag-master"
-        volumes:
-          - name: shm
-            emptyDir:
-              medium: Memory
-          - name: secrets
-            secret:
-              secretName: ag-agraphsecrets
+      volumes:
+        - name: shm
+          emptyDir:
+            medium: Memory
+        - name: secrets
+          secret:
+            secretName: ag-agraphsecrets
   volumeClaimTemplates:
     - metadata:
-      name: ag-data
-      spec:
+        name: ag-data
+        spec:
       resources:
         requests:
           storage: 20Gi
@@ -53,7 +53,7 @@ spec:
 
 ---
 
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: ag-slave
@@ -75,7 +75,7 @@ spec:
           secret:
               secretName: ag-agraphsecrets
       containers:
-        - name: ag-master
+        - name: agmmr
           image: franzinc/agmmr
           imagePullPolicy: IfNotPresent
           livenessProbe:

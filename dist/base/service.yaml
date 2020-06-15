@@ -22,10 +22,10 @@ metadata:
   labels:
     app: ag
 spec:
- clusterIP: None
- selector:
-   app: ag-slave
- ports:
- - name: ag-main
-   port: 10035
-   targetPort: 10035
+  clusterIP: None
+  selector:
+    app: ag-slave
+  ports:
+    - name: ag-main
+      port: 10035
+      targetPort: 10035

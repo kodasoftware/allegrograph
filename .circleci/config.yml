@@ -210,7 +210,7 @@ commands:
     steps:
       - run: |
           docker pull <<parameters.remote>>
-          docker image tag <parameters.remote>> <<parameters.hostname>>/<<parameters.project_id>>/<<parameters.image>>:$(cat VERSION)
+          docker image tag <<parameters.remote>> <<parameters.hostname>>/<<parameters.project_id>>/<<parameters.image>>:$(cat VERSION)
 
   # 
   # Git commands

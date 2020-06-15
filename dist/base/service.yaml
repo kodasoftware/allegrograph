@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ag-master
+  labels:
+    app: ag
+spec:
+  clusterIP: None
+  selector:
+    app: ag-master
+  ports:
+    - name: http
+      port: 10035
+      targetPort: 10035
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ag-slave
+  labels:
+    app: ag
+spec:
+ clusterIP: None
+ selector:
+   app: ag-slave
+ ports:
+ - name: ag-main
+   port: 10035
+   targetPort: 10035

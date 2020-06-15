@@ -1,0 +1,93 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: ag-master
+  labels:
+    app: ag
+spec:
+  serviceName: ag-controlling
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ag-master
+    spec:
+      containers:
+        - name: ag-master
+          image: franzinc/agmmr
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /version
+              port: 10035
+            initialDelaySeconds: 30
+          volumeMounts:
+            - name: shm
+              mountPath: /dev/shm
+            - name: ag-data
+              mountPath: /app/rootcatalog
+            - name: secrets
+              mountPath: /app/secrets
+              readOnly: true
+          env:
+            - name: Controlling
+              value: "yes"
+            - name: ControllingHost
+              value: "ag-master"
+        volumes:
+          - name: shm
+            emptyDir:
+              medium: Memory
+          - name: secrets
+            secret:
+              secretName: ag-agraphsecrets
+  volumeClaimTemplates:
+    - metadata:
+      name: ag-data
+      spec:
+      resources:
+        requests:
+          storage: 20Gi
+      accessModes:
+        - ReadWriteOnce
+
+---
+
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: ag-slave
+  labels:
+    app: ag
+spec:
+  serviceName: ag-slave
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: ag-slave
+    spec:
+      volumes:
+        - name: shm
+          emptyDir:
+            medium: Memory
+        - name: secrets
+          secret:
+              secretName: ag-agraphsecrets
+      containers:
+        - name: ag-master
+          image: franzinc/agmmr
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /version
+              port: 10035
+            initialDelaySeconds: 30
+          volumeMounts:
+            - name: shm
+              mountPath: /dev/shm
+            - name: secrets
+              mountPath: /app/secrets
+              readOnly: true
+          env:
+            - name: ControllingHost

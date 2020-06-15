@@ -1,0 +1,10 @@
+namespace: default
+
+images:
+  - name: franzinc/agmmr
+    newTag: 7.0.0
+
+resources:
+  - secret.yaml
+  - stateful-set.yaml
+  - service.yaml

@@ -1,0 +1,11 @@
+namespace: dev
+replicas:
+  - name: ag-slave
+    count: 3
+images:
+  - name: franzinc/agmmr
+    newTag: 7.0.0
+bases:
+  - ../../base
+resources:
+  - namespace.yaml

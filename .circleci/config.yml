@@ -101,11 +101,11 @@ jobs:
           instance: bastion-instance
           zone: europe-west2-a
           script: |
-            rm -rf allegograph
+            rm -rf allegrograph
             ssh -T github.com -o "StrictHostKeyChecking no"
-            git clone git@github.com:sauce-consortia/allegograph.git
+            git clone git@github.com:sauce-consortia/allegrograph.git
             gcloud container clusters get-credentials sauce --region europe-west2
-            kustomize build allegograph/dist/overlays/dev | kubectl apply -f -
+            kustomize build allegrograph/dist/overlays/dev | kubectl apply -f -
 
 
 

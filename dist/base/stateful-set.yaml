@@ -5,6 +5,9 @@ metadata:
   labels:
     app: ag
 spec:
+  selector:
+    matchLabels:
+      app: ag-master
   serviceName: ag-controlling
   replicas: 1
   template:
@@ -60,6 +63,9 @@ metadata:
   labels:
     app: ag
 spec:
+  selector:
+    matchLabels:
+      app: ag-slave
   serviceName: ag-slave
   replicas: 3
   template:

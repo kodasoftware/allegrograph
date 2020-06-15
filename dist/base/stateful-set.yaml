@@ -32,9 +32,6 @@ spec:
             - name: secrets
               mountPath: /app/secrets
               readOnly: true
-            - name: config
-              mountPath: /app/agraph/lib/agraph.cfg
-              readOnly: true
           env:
             - name: Controlling
               value: "yes"
@@ -47,10 +44,6 @@ spec:
         - name: secrets
           secret:
             secretName: ag-agraphsecrets
-        - name: config
-          configMap:
-            name: ag-config
-            optional: false
           
   volumeClaimTemplates:
     - metadata:
@@ -88,10 +81,6 @@ spec:
         - name: secrets
           secret:
               secretName: ag-agraphsecrets
-        - name: config
-          configMap:
-            name: ag-config
-            optional: false
       containers:
         - name: agmmr
           image: gcr.io/sauce-gcr--hawk/agmmr
@@ -106,9 +95,6 @@ spec:
               mountPath: /dev/shm
             - name: secrets
               mountPath: /app/secrets
-              readOnly: true
-            - name: config
-              mountPath: /app/agraph/lib/agraph.cfg
               readOnly: true
           env:
             - name: ControllingHost

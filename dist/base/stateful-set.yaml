@@ -19,6 +19,10 @@ spec:
         - name: agmmr
           image: gcr.io/sauce-gcr--hawk/agmmr
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "1.5G"
           livenessProbe:
             httpGet:
               path: /version
@@ -44,7 +48,16 @@ spec:
         - name: secrets
           secret:
             secretName: ag-agraphsecrets
-          
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                      - ag-master
+              topologyKey: "kubernetes.io/hostname"
   volumeClaimTemplates:
     - metadata:
         name: ag-data
@@ -85,6 +98,10 @@ spec:
         - name: agmmr
           image: gcr.io/sauce-gcr--hawk/agmmr
           imagePullPolicy: IfNotPresent
+          resources:
+            request:
+              cpu: "1000m"
+              memory: "2G"
           livenessProbe:
             httpGet:
               path: /version

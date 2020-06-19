@@ -99,7 +99,7 @@ spec:
           image: gcr.io/sauce-gcr--hawk/agmmr
           imagePullPolicy: IfNotPresent
           resources:
-            request:
+            requests:
               cpu: "1000m"
               memory: "2G"
           livenessProbe:

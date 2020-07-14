@@ -1,15 +1,9 @@
-namespace: dev
-replicas:
-  - name: ag-slave
-    count: 3
-images:
-  - name: gcr.io/sauce-gcr--hawk/agmmr
-    newTag: 0.1.0
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 bases:
   - ../../base
 resources:
   - namespace.yaml
-  # - configmap.yaml
 patches:
   - target:
       group: apps
@@ -26,4 +20,4 @@ patches:
                   - key: cloud.google.com/gke-nodepool
                     operator: In
                     values:
-                      - dev
+                      - test

@@ -12,14 +12,22 @@ workflows:
   publish_deploy:
     jobs:
       - publish
-      - pre_deploy:
+      - pre_deploy_to_dev:
           type: approval
           filters:
             branches:
               only: master
-      - deploy:
+      - deploy_to_dev:
           requires:
-            - pre_deploy
+            - pre_deploy_to_dev
+      - pre_deploy_to_test:
+          type: approval
+          filters:
+            branches:
+              only: master
+      - deploy_to_test:
+          requires:
+            - pre_deploy_to_test
 
 # 
 # Jobs
@@ -74,28 +82,13 @@ jobs:
           image: agmmr
       # - git_push_tags
       
-  deploy:
+  deploy_to_dev:
     executor: gcloud
     steps:
       - checkout
       - fingerprint
       - setup_remote_docker
       - dependencies
-      # - tf_init:
-      #     env: $TF_ENVIRONMENT
-      # - tf_plan:
-      #     env: $TF_ENVIRONMENT
-      # - tf_apply:
-      #     env: $TF_ENVIRONMENT
-      # - git_config:
-      #     email: $GIT_EMAIL
-      #     author: $GIT_NAME
-      # - git_commit:
-      #     message: "[provision] CircleCI cron job completion [skip ci]"
-      #     env: $TF_ENVIRONMENT
-      #     version_file: $(pwd)/VERSION
-      #     when: always
-      # - git_push
       - gcloud_auth:
           credentials: $GOOGLE_CREDENTIALS
           project_id: sauce-k8s--yak
@@ -112,6 +105,30 @@ jobs:
             git clone git@github.com:sauce-consortia/allegrograph.git
             gcloud container clusters get-credentials sauce --region europe-west2
             kustomize build allegrograph/dist/overlays/dev | kubectl apply -f -
+  
+  deploy_to_test:
+    executor: gcloud
+    steps:
+      - checkout
+      - fingerprint
+      - setup_remote_docker
+      - dependencies
+      - gcloud_auth:
+          credentials: $GOOGLE_CREDENTIALS
+          project_id: sauce-k8s--yak
+          region: europe-west2
+          ttl: 30m
+      - gcloud_ssh_setup:
+          ttl: 30m
+      - gcloud_ssh:
+          instance: bastion-instance
+          zone: europe-west2-a
+          script: |
+            rm -rf allegrograph
+            ssh -T github.com -o "StrictHostKeyChecking no"
+            git clone git@github.com:sauce-consortia/allegrograph.git
+            gcloud container clusters get-credentials sauce --region europe-west2
+            kustomize build allegrograph/dist/overlays/test | kubectl apply -f -
 
 
 

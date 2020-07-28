@@ -36,4 +36,3 @@ patches:
       - op: add
         path: /spec/type
         value: LoadBalancer
-      

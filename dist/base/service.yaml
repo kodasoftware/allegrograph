@@ -5,6 +5,7 @@ metadata:
   labels:
     app: ag
 spec:
+  clusterIP: None
   selector:
     app: ag-master
   ports:
@@ -21,6 +22,7 @@ metadata:
   labels:
     app: ag
 spec:
+  clusterIP: None
   selector:
     app: ag-slave
   ports:

@@ -37,3 +37,6 @@ patches:
         path: /metadata/annotations
         value:
           cloud.google.com/backend-config: '{"default": "test-graph-db"}'
+      - op: add
+        path: /spec/type
+        value: NodePort

@@ -34,7 +34,6 @@ patches:
       name: ag-slave
     patch: |-
       - op: add
-        path: /metadata
+        path: /metadata/annotations
         value:
-          annotations:
-            cloud.google.com/backend-config: '{"default": "test-graph-db"}'
+          cloud.google.com/backend-config: '{"default": "test-graph-db"}'

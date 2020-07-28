@@ -28,3 +28,13 @@ patches:
                     operator: In
                     values:
                       - test
+  - target:
+      version: v1
+      kind: Service
+      name: ag-slave
+    patch: |-
+      - op: add
+        path: /metadata
+        value:
+          annotations:
+            cloud.google.com/backend-config: '{"default": "test-graph-db"}'

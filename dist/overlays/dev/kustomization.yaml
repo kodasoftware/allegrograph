@@ -29,3 +29,11 @@ patches:
                     operator: In
                     values:
                       - dev
+  - target:
+      version: v1
+      kind: Service
+      name: ag-slave
+    patch: |-
+      - op: add
+        path: /spec/clusterIP
+        value: None

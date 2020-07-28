@@ -22,7 +22,6 @@ metadata:
   labels:
     app: ag
 spec:
-  clusterIP: None
   selector:
     app: ag-slave
   ports:

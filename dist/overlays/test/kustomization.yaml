@@ -28,3 +28,12 @@ patches:
                     operator: In
                     values:
                       - test
+  - target:
+      version: v1
+      kind: Service
+      name: ag-slave
+    patch: |-
+      - op: add
+        path: /spec/type
+        value: LoadBalancer
+      

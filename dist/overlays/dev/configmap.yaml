@@ -5,7 +5,7 @@ metadata:
   labels:
     app: ag
 data:
-  agraph.cfgl: |-
+  agraph.cfg: |- # /app/agraph/lib/agraph.cfg
     Port 10035
     SuperUser super:xyzzy
     BaseDir /app/agraph

@@ -116,3 +116,13 @@ spec:
           env:
             - name: ControllingHost
               value: "ag-master"
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                      - ag-slave
+              topologyKey: "kubernetes.io/hostname"

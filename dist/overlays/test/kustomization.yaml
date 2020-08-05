@@ -7,10 +7,8 @@ replicas:
 images:
   - name: gcr.io/sauce-gcr--hawk/agmmr
     newTag: 0.1.0
-bases:
-  - ../../base
 resources:
-  - namespace.yaml
+  - ../../base
 patches:
   - target:
       group: apps
